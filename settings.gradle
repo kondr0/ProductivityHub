@@ -1,0 +1,10 @@
+rootProject.name = 'productivity-hub'
+
+include 'auth-service'
+include 'gateway-service'
+include 'todo-service'
+include 'finance-service'
+include 'notes-service'
+include 'planner-service'
+include 'dashboard-service'
+include 'module-registry-service'
