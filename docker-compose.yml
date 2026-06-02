@@ -3,7 +3,6 @@ networks:
     driver: bridge
   internal_network:
     driver: bridge
-    internal: true
 
 services:
   postgres:

@@ -108,6 +108,23 @@ public class TodoService {
         log.info("Task deleted: {}", id);
     }
 
+    public Map<String, Long> getTodoStats(UUID userId) {
+        long total = taskRepository.countByUserId(userId);
+        long todo = taskRepository.countByUserIdAndStatus(userId, Task.TaskStatus.TODO);
+        long inProgress = taskRepository.countByUserIdAndStatus(userId, Task.TaskStatus.IN_PROGRESS);
+        long done = taskRepository.countByUserIdAndStatus(userId, Task.TaskStatus.DONE);
+        long overdue = taskRepository.countByUserIdAndDueDateBeforeAndStatusNot(
+                userId, LocalDate.now(), Task.TaskStatus.DONE);
+
+        return Map.of(
+            "total", total,
+            "todo", todo,
+            "inProgress", inProgress,
+            "done", done,
+            "overdue", overdue
+        );
+    }
+
     private Set<Tag> resolveTags(Set<UUID> tagIds, UUID userId) {
         if (tagIds == null || tagIds.isEmpty()) return new HashSet<>();
         return tagIds.stream()

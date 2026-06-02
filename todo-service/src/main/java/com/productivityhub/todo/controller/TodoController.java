@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -69,6 +70,12 @@ public class TodoController {
             @Valid @RequestBody PatchStatusRequest request,
             @RequestHeader("X-User-Id") UUID userId) {
         return ResponseEntity.ok(todoService.patchStatus(id, request, userId));
+    }
+
+    @GetMapping("/stats")
+    @Operation(summary = "Get task statistics for user")
+    public ResponseEntity<Map<String, Long>> getStats(@RequestHeader("X-User-Id") UUID userId) {
+        return ResponseEntity.ok(todoService.getTodoStats(userId));
     }
 
     @DeleteMapping("/{id}")

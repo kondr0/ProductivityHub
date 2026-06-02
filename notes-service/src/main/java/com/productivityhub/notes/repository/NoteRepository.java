@@ -23,4 +23,6 @@ public interface NoteRepository extends JpaRepository<Note, UUID> {
     List<Note> findByUserIdAndIsPinnedTrue(UUID userId);
 
     void deleteByIdAndUserId(UUID id, UUID userId);
+
+    long countByUserId(UUID userId);
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -61,6 +62,12 @@ public class NoteController {
             @RequestHeader("X-User-Id") UUID userId) {
         noteService.deleteNote(id, userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/count")
+    @Operation(summary = "Get notes count for user")
+    public ResponseEntity<Map<String, Long>> getNotesCount(@RequestHeader("X-User-Id") UUID userId) {
+        return ResponseEntity.ok(Map.of("count", noteService.getNotesCount(userId)));
     }
 
     @GetMapping("/search")

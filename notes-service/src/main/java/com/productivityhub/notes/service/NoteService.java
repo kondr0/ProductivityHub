@@ -84,6 +84,10 @@ public class NoteService {
         log.info("Note deleted: {}", id);
     }
 
+    public long getNotesCount(UUID userId) {
+        return noteRepository.countByUserId(userId);
+    }
+
     private Set<NoteTag> resolveTags(Set<UUID> tagIds, UUID userId) {
         if (tagIds == null || tagIds.isEmpty()) return new HashSet<>();
         return tagIds.stream()

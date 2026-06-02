@@ -28,4 +28,10 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     List<Task> findByUserIdAndDueDateBefore(UUID userId, LocalDate dueDate);
 
     void deleteByIdAndUserId(UUID id, UUID userId);
+
+    long countByUserId(UUID userId);
+
+    long countByUserIdAndStatus(UUID userId, Task.TaskStatus status);
+
+    long countByUserIdAndDueDateBeforeAndStatusNot(UUID userId, LocalDate dueDate, Task.TaskStatus status);
 }
