@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   gateway_network:
     driver: bridge
@@ -168,6 +166,16 @@ services:
         condition: service_healthy
     networks:
       - internal_network
+
+  frontend-service:
+    build: frontend
+    container_name: frontend-service
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - gateway_network
 
 volumes:
   postgres_data:

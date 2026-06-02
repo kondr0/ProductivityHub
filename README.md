@@ -7,15 +7,15 @@
 ## Архитектура
 
 ```
-Client → Gateway (8080) → auth-service (8081)
-                        → todo-service (8082)
-                        → finance-service (8083)
-                        → notes-service (8084)
-                        → planner-service (8085)
-                        → dashboard-service (8086)
-                        → module-registry-service (8087)
-                               ↓
-                        PostgreSQL (5432)
+Client → Frontend (3000) → Gateway (8080) → auth-service (8081)
+                                          → todo-service (8082)
+                                          → finance-service (8083)
+                                          → notes-service (8084)
+                                          → planner-service (8085)
+                                          → dashboard-service (8086)
+                                          → module-registry-service (8087)
+                                                 ↓
+                                          PostgreSQL (5432)
 ```
 
 Gateway — единая точка входа. Все запросы кроме `/api/auth/register` и `/api/auth/login` требуют JWT токен в заголовке `Authorization: Bearer <token>`.
@@ -23,6 +23,7 @@ Gateway — единая точка входа. Все запросы кроме
 ## Стек
 
 - Java 17, Spring Boot 3.2.5, Spring Cloud Gateway 2023.0.1
+- Frontend: vanilla HTML/CSS/JS, Nginx
 - PostgreSQL 15, Flyway, Hibernate JPA
 - Docker, Docker Compose
 - JWT (jjwt 0.12.5), BCrypt, Lombok
@@ -41,6 +42,7 @@ Gateway — единая точка входа. Все запросы кроме
 | `planner-service` | 8085 | События и напоминания |
 | `dashboard-service` | 8086 | Агрегация данных из сервисов |
 | `module-registry-service` | 8087 | Реестр модулей и доступов |
+| `frontend-service` | 3000 | Фронтенд (Nginx + vanilla JS) |
 
 ## Быстрый старт
 
@@ -72,6 +74,17 @@ curl http://localhost:8080/actuator/health
 ```bash
 docker compose down
 ```
+
+## Фронтенд
+
+Фронтенд доступен на `http://localhost:3000`. Никакой регистрации не требуется — просто откройте в браузере.
+
+Страница позволяет:
+- Зарегистрироваться / войти
+- Создавать и просматривать задачи, заметки, транзакции, события
+- Смотреть дашборд со сводкой по всем сервисам
+
+Фронтенд — SPA на чистом HTML/CSS/JS, раздаётся через Nginx. API-запросы проксируются на `gateway-service`.
 
 ## Демонстрация (пошагово)
 
